@@ -1,0 +1,153 @@
+//----------------------------------\\
+int cm = 0;
+long readUltrasonicDistance(int triggerPin, int echoPin)
+{
+  pinMode(triggerPin, OUTPUT);
+  digitalWrite(triggerPin, LOW);
+  delayMicroseconds(2);
+
+  digitalWrite(triggerPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(triggerPin, LOW);
+  pinMode(echoPin, INPUT);
+  
+  return pulseIn(echoPin, HIGH);
+}
+
+//--------------------------------\\
+void neutral()
+{
+  digitalWrite(4, LOW);
+  digitalWrite(3, LOW);
+  digitalWrite(2, LOW);
+  digitalWrite(5, LOW);
+  digitalWrite(6, LOW);
+  digitalWrite(7, LOW);
+  digitalWrite(8, LOW);
+  digitalWrite(9, LOW);
+  digitalWrite(10, LOW);
+  digitalWrite(13, LOW);
+}
+    
+void stop()
+{
+  digitalWrite(4, LOW);
+  digitalWrite(3, HIGH);
+  digitalWrite(2, HIGH);
+  digitalWrite(5, HIGH);
+  digitalWrite(6, LOW);
+  digitalWrite(7, HIGH);
+  digitalWrite(10, HIGH);
+  delay(250);
+  digitalWrite(4, LOW);
+  digitalWrite(3, LOW);
+  digitalWrite(2, LOW);
+  digitalWrite(5, LOW);
+  digitalWrite(6, LOW);
+  digitalWrite(7, LOW);
+  delay(1000);
+}
+
+void forward()
+{
+  digitalWrite(4, HIGH);
+  digitalWrite(3, HIGH);
+  digitalWrite(2, LOW);
+  digitalWrite(5, HIGH);
+  digitalWrite(6, HIGH);
+  digitalWrite(7, LOW);
+}
+
+void backward()
+{
+  digitalWrite(4, LOW);
+  digitalWrite(3, HIGH);
+  digitalWrite(2, HIGH);
+  digitalWrite(5, HIGH);
+  digitalWrite(6, LOW);
+  digitalWrite(7, HIGH);
+  digitalWrite(8, HIGH);
+}
+
+void turnleft()
+{
+  digitalWrite(4, HIGH);
+  digitalWrite(3, HIGH);
+  digitalWrite(2, LOW);
+  digitalWrite(5, HIGH);
+  digitalWrite(6, LOW);
+  digitalWrite(7, HIGH);
+  
+  digitalWrite(9, HIGH);
+  delay(500);
+  digitalWrite(9, LOW);
+  delay(500);
+  digitalWrite(9, HIGH);
+  delay(500);
+  digitalWrite(9, LOW);
+  delay(500);
+}
+
+void turnright()
+{
+  digitalWrite(4, LOW);
+  digitalWrite(3, HIGH);
+  digitalWrite(2, HIGH);
+  digitalWrite(5, HIGH);
+  digitalWrite(6, HIGH);
+  digitalWrite(7, LOW);
+  
+  digitalWrite(13, HIGH);
+  delay(500);
+  digitalWrite(13, LOW);
+  delay(500);
+  digitalWrite(13, HIGH);
+  delay(500);
+  digitalWrite(13, LOW);
+  delay(500);
+}
+
+void ultrasetup()
+{
+  //has errors, fix!!
+  int cm = 0;
+  cm = 0.01723 * readUltrasonicDistance(12, 11);
+  Serial.print(cm);
+  Serial.println("cm");
+  delay(100);
+}
+
+//--------------------------\\  
+
+void setup()
+{
+  //----------------------\\
+  //for motors
+  pinMode(4, OUTPUT); //input 1
+  pinMode(3, OUTPUT); //enable 1 & 2
+  pinMode(2, OUTPUT); //input 2
+  pinMode(7, OUTPUT); //input 4
+  pinMode(6, OUTPUT); //input 3
+  pinMode(5, OUTPUT); //enable 3 & 4
+  //-------------------------\\
+  //for Led's\\
+  pinMode(8, OUTPUT); //reverse lights
+  pinMode(10, OUTPUT); //Braking lights
+  pinMode(9, OUTPUT); //blikers
+  pinMode(13, OUTPUT); //blikers
+
+  
+  //----------------------\\
+  Serial.begin(9600); //for ultrasonic sensor
+}
+
+
+
+void loop()
+{
+  //------for ultrasonic sensor------\\
+  ultrasetup();
+  //---------------------------------\\
+
+  turnleft(); 
+}
